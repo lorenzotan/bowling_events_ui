@@ -1,0 +1,11 @@
+services:
+  ionic-vue:
+    # entrypoint: sleep infinity
+    image: bowl:ui
+    # build: .
+    ports:
+      - "8100:8100"
+    volumes:
+      - .:/app
+    # stdin_open: true
+    # tty: true
