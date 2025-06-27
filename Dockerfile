@@ -3,10 +3,13 @@ FROM node:20-slim
 # Install Ionic CLI globally
 RUN npm install -g @ionic/cli
 
-WORKDIR /app
+# Copy ionic code into container
+COPY bowling_ui /app
+
+WORKDIR /app/bowling_ui
 
 # Install dependencies
-# RUN npm install
+RUN npm install
 
 # Expose Ionic dev server port
 EXPOSE 8100
