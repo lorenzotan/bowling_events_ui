@@ -18,6 +18,18 @@ Vue 3 + Ionic Framework web/mobile client, consuming the [Bowling Events API](..
 - API field names mirror the backend's `snake_case` JSON verbatim in TypeScript interfaces (`start_date`, `game_day`, etc.) rather than converting to `camelCase` — keeps the interface a direct match to the API response.
 - All backend calls go through `src/services/apiClient.ts` (axios), not ad-hoc `fetch`/`axios` calls in components.
 
+## Code Smells
+
+Use [refactoring.guru's code smell catalog](https://refactoring.guru/refactoring/smells) as a review checklist when writing or refactoring components — the categories apply to Vue/TypeScript just as much as any OO or backend code:
+
+- **Bloaters** — long components doing too much (data-fetching + presentation + business logic all in one `.vue` file), props lists that keep growing, primitive obsession (passing five loose strings/numbers around instead of one typed object). `.eslintrc.cjs` doesn't currently enforce complexity/param-count limits; if this becomes a recurring issue, consider adding ESLint's `complexity`, `max-lines-per-function`, `max-params`, and `no-magic-numbers` rules.
+- **Needless complexity / duplicate code** — repeated template markup or fetch/error-handling logic across views is a signal to extract a composable (`src/composables/`) or shared component rather than copy-pasting.
+- **Dispensables** — dead code (unused components, commented-out template blocks), and components that only pass props straight through without adding behavior.
+- **Couplers** — a component reaching into another component's internals, or chaining deep into a response object (`event.location.address.city`) in the template instead of shaping the data at the `apiClient.ts` boundary; watch for "middle man" components that just forward props/emits without doing anything.
+- **Object-Orientation Abusers** — less relevant here since Composition API favors functions over classes, but watch for `v-if`/`v-else` chains standing in for what should be separate components (the switch-statement smell, Vue-flavored).
+
+Most of these need judgment during review, not a linter — flag them in code review rather than expecting ESLint to catch them.
+
 ## Project structure
 
 - `src/views/` — route-level page components (Ionic pages).
