@@ -1,4 +1,4 @@
-import { mount, flushPromises } from "@vue/test-utils";
+import { mount } from "@vue/test-utils";
 import { describe, expect, test, vi } from "vitest";
 import HomePage from "@/views/HomePage.vue";
 import { getEvents } from "@/services/apiClient";
@@ -8,37 +8,17 @@ vi.mock("@/services/apiClient", () => ({
 }));
 
 describe("HomePage.vue", () => {
-  test("renders events returned by the API", async () => {
-    vi.mocked(getEvents).mockResolvedValue([
-      {
-        id: 1,
-        name: "Monday Night League",
-        category: "league",
-        start_date: "2026-01-05",
-        end_date: "2026-04-06",
-        game_day: "Monday",
-        game_time: "19:00",
-        location_id: 1,
-        registration_url: "https://example.com/register",
-      },
-    ]);
-
+  test("renders the scoreboard header and live indicator", () => {
     const wrapper = mount(HomePage);
-    await flushPromises();
 
-    expect(wrapper.text()).toContain("Monday Night League");
-    expect(wrapper.text()).toContain("Category: league");
-    expect(wrapper.find("a").attributes("href")).toBe(
-      "https://example.com/register",
-    );
+    expect(wrapper.find(".sb-title").text()).toBe("My Bowling World");
+    expect(wrapper.find(".sb-live-text").text()).toBe("Live Event Board");
+    expect(wrapper.find(".sb-live-dot").exists()).toBe(true);
   });
 
-  test("shows an error message when the API call fails", async () => {
-    vi.mocked(getEvents).mockRejectedValue(new Error("Network Error"));
+  test("does not fetch events yet", () => {
+    mount(HomePage);
 
-    const wrapper = mount(HomePage);
-    await flushPromises();
-
-    expect(wrapper.text()).toContain("Failed to load Events: Network Error");
+    expect(getEvents).not.toHaveBeenCalled();
   });
 });
