@@ -10,6 +10,12 @@ http://ionicframework.com/docs/theming/ */
   --sb-text: #e7edf3;
   --sb-muted: #7c8798;
   --sb-accent: #3fe0a5;
+  --sb-alert: #ff7a50;
+  --sb-surface: #12161d;
+  --sb-border: #1e2530;
+  --sb-divider: #202834;
+  --sb-dim: #54606f;
+  --sb-subtle: #8592a3;
   --sb-font-body: "Helvetica Neue", Arial, sans-serif;
   --sb-font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 
