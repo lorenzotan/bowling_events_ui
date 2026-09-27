@@ -1,2 +1,22 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+
+/* Overhead Scoreboard design tokens (see mockups/bowling-events-mockups.html).
+   Scoped to .ios/.md too so they beat the Ionic dark palette's selectors. */
+:root,
+:root.ios,
+:root.md {
+  --sb-bg: #0a0d12;
+  --sb-text: #e7edf3;
+  --sb-muted: #7c8798;
+  --sb-accent: #3fe0a5;
+  --sb-font-body: "Helvetica Neue", Arial, sans-serif;
+  --sb-font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ion-font-family: var(--sb-font-body);
+  --ion-background-color: var(--sb-bg);
+  --ion-text-color: var(--sb-text);
+  --ion-toolbar-background: var(--sb-bg);
+  --ion-toolbar-color: var(--sb-text);
+  --ion-toolbar-border-color: transparent;
+}
