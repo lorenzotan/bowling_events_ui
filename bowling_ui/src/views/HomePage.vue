@@ -49,12 +49,6 @@ import {
   IonText,
 } from "@ionic/vue";
 
-interface Event {
-  id: number;
-  name: string;
-  date: string;
-}
-
 const events = ref<Event[]>([]);
 const error = ref<string | null>(null);
 
