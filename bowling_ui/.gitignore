@@ -30,3 +30,7 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# Cypress run output
+/tests/e2e/screenshots
+/tests/e2e/videos
