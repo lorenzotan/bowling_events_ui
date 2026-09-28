@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: bowling_ui
+
+jobs:
+  lint-typecheck-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: bowling_ui/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      # `build` runs vue-tsc before vite, so this also type-checks
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: bowling_ui/dist
+          retention-days: 7
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: bowling_ui/package-lock.json
+      - run: npm ci
+      # `run` instead of `npm run test:unit`, which starts watch mode
+      - run: npx vitest run
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: bowling_ui/package-lock.json
+      # Specs stub the API with cy.intercept, so only the built UI is served
+      - uses: cypress-io/github-action@v6
+        with:
+          working-directory: bowling_ui
+          build: npm run build
+          start: npx vite preview --port 8100 --strictPort
+          wait-on: http://localhost:8100
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: bowling_ui/tests/e2e/screenshots
+          retention-days: 7
