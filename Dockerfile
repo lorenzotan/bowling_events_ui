@@ -4,7 +4,7 @@ FROM node:20-slim
 RUN npm install -g @ionic/cli
 
 # Copy ionic code into container
-COPY bowling_ui /app
+COPY bowling_ui /app/bowling_ui
 
 WORKDIR /app/bowling_ui
 
