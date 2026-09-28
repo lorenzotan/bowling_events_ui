@@ -7,5 +7,7 @@ services:
       - "8100:8100"
     volumes:
       - .:/app
+      # keep the image's Linux node_modules instead of the host's
+      - /app/bowling_ui/node_modules
     # stdin_open: true
     # tty: true
