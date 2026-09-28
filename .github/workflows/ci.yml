@@ -59,7 +59,7 @@ jobs:
           cache: npm
           cache-dependency-path: bowling_ui/package-lock.json
       # Specs stub the API with cy.intercept, so only the built UI is served
-      - uses: cypress-io/github-action@v6
+      - uses: cypress-io/github-action@v7
         with:
           working-directory: bowling_ui
           build: npm run build
