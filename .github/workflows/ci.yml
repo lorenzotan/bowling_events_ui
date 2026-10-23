@@ -63,8 +63,8 @@ jobs:
         with:
           working-directory: bowling_ui
           build: npm run build
-          start: npx vite preview --port 8100 --strictPort
-          wait-on: http://localhost:8100
+          start: npx vite preview --host 127.0.0.1 --port 8100 --strictPort
+          wait-on: http://127.0.0.1:8100
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
