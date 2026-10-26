@@ -65,7 +65,7 @@ jobs:
           build: npm run build
           start: npx vite preview --host 127.0.0.1 --port 8100 --strictPort
           wait-on: http://127.0.0.1:8100
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots
